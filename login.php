@@ -1,53 +1,51 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Student Information System</title>
-<link rel="stylesheet" type="text/css" href="css/reset.css" />
-<link rel="stylesheet" type="text/css" href="css/960.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
+<?php 
+	include 'core/init.php';
+?>
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+	 	<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Login | Student Information System</title>
+		<link rel="stylesheet" href="css/login.css">
+	</head>
+	<body>
+		<div class="login">
+			<h1>Student Information System</h1>
+		    <h2>Login</h2>
+		    <form method="POST" role="form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+		    	<input type="text" name="username" placeholder="Username" required="required" />
+		        <input type="password" name="password" placeholder="Password" required="required" />
+		        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+		    </form>    
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="ajax/main.js"></script>
-</head>
-
-<body>
-<div id="container" class="container_16">
-    <div id="header" class="grid_16">
-    	<a href="index.php"><h3>Krishna Engineering College</h3></a>
-        <div id="top_menu">
-        	<a id="ad_login" href="login.php">Admin</a>
-        </div><!-- end top_menu -->
-    </div><!-- end header -->
-    
-    <div id="sub_header" class="grid_16">
-    	<h4 id="logo">Student Information System</h4>
-    </div><!-- end sub header -->
-    
-    <div class="grid_6 login">
-        <img src="images/login-top.png" />
-        <div id="login">
-            <h3>Admin Login</h3>
-            <form method="post" action="checklogin.php">
-                <p>Username:</p><input type="text" size="15" name="username" value="" class="usr" /><br />
-                <p>Password: </p><input type="password" size="15" name="password" value="" class="input" /><br />
-                <input type="submit" name="Submit" class="input_btn" value="Login" />
-            </form><!-- end form -->
-        </div><!-- end login -->
-        <img src="images/login-bottom.png" />
-    </div><!-- end login wrap -->
-    
-    <div class="grid_16 footer">
-        <img src="images/footer-top.png" />
-        <div id="footer">
-            <p>&copy; 2010 Vishu Singh<br />KEC</p>
-        </div><!-- end footer -->
-        <img src="images/footer-bottom.png" />
-    </div><!-- end footer wrap -->
-    
-    
-</div><!-- end container -->
+		</div>
 
 
-</body>
+	</body>
 </html>
+
+<?php 
+	
+	$username = $password = "";
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") 
+	{
+
+		$username = Input::cleanData($_POST["username"]);
+		$password = Input::cleanData($_POST["password"]);
+
+		if (Validate::check($username, $password) === true) 
+		{	
+
+			$x = new User;
+			if ($x->login($username, $password))
+			{
+				Redirect::to('index.php');
+			}
+			
+		 }
+	}
+
+?>
